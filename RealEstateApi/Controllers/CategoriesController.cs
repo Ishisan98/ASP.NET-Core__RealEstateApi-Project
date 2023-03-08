@@ -8,17 +8,23 @@ namespace RealEstateApi.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private List<Category> categories = new List<Category>()
+        private static List<Category> categories = new List<Category>()
         {
             new Category () { Id = 0, Name = "Appartment", ImageUrl = "appartment.png"},
             new Category () { Id = 1, Name = "Commercial", ImageUrl = "commercial.png"}
         };
 
 
-        [HttpGet]
+        [HttpGet]                               // api/categories
         public IEnumerable <Category> get ()
         {
             return categories; 
-        } 
+        }
+
+        [HttpPost]
+        public void Post ([FromBody] Category category)
+        {
+            categories.Add (category);
+        }
     }
 }
