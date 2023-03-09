@@ -14,52 +14,48 @@ namespace RealEstateApi.Controllers
 
 
         //GET Methods
-
         [HttpGet]
-        public IEnumerable<Category> Get()
+        public IActionResult Get()
         {
-            return _dbcontext.Categories;
+            return Ok(_dbcontext.Categories);
         }
+
 
         [HttpGet("{id}")]
-        public Category Get(int id)
+        public IActionResult Get(int id)
         {
             var category = _dbcontext.Categories.FirstOrDefault(x => x.Id == id);
-            return category;
+            return Ok(category);
         }
 
-
-
         //POST Method
-
         [HttpPost]
-        public void Post([FromBody] Category category)
+        public IActionResult Post([FromBody] Category category)
         {
             _dbcontext.Categories.Add(category);
             _dbcontext.SaveChanges();
+            return StatusCode(StatusCodes.Status201Created);
         }
-
-
 
         //PUT Method
         [HttpPut("{id}")]
-        public void Put (int id , [FromBody] Category categoryObj)
+        public IActionResult Put (int id , [FromBody] Category categoryObj)
         {
             var category = _dbcontext.Categories.Find(id);
             category.Name = categoryObj.Name;
             category.ImageUrl = categoryObj.ImageUrl;
             _dbcontext.SaveChanges();
+            return Ok("Record updated successfully");
         }
-
-
 
         //DELETE Method
         [HttpDelete("{id}")]
-        public void Delete (int id)
+        public IActionResult Delete (int id)
         {
             var category = _dbcontext.Categories.Find(id);
             _dbcontext.Categories.Remove(category);
             _dbcontext.SaveChanges();
+            return Ok("Record deleted");
         }
 
 
@@ -68,19 +64,46 @@ namespace RealEstateApi.Controllers
 
 
 
+        //GET Methods
+        //[HttpGet]
+        //public IEnumerable<Category> Get()
+        //{
+        //    return _dbcontext.Categories;
+        //}
 
+        //[HttpGet("{id}")]
+        //public Category Get(int id)
+        //{
+        //    var category = _dbcontext.Categories.FirstOrDefault(x => x.Id == id);
+        //    return category;
+        //}
 
+        ////POST Method
+        //[HttpPost]
+        //public void Post([FromBody] Category category)
+        //{
+        //    _dbcontext.Categories.Add(category);
+        //    _dbcontext.SaveChanges();
+        //}
 
+        ////PUT Method
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] Category categoryObj)
+        //{
+        //    var category = _dbcontext.Categories.Find(id);
+        //    category.Name = categoryObj.Name;
+        //    category.ImageUrl = categoryObj.ImageUrl;
+        //    _dbcontext.SaveChanges();
+        //}
 
-
-
-
-
-
-
-
-
-
+        ////DELETE Method
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    var category = _dbcontext.Categories.Find(id);
+        //    _dbcontext.Categories.Remove(category);
+        //    _dbcontext.SaveChanges();
+        //}
 
 
 
