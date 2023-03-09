@@ -25,6 +25,10 @@ namespace RealEstateApi.Controllers
         public IActionResult Get(int id)
         {
             var category = _dbcontext.Categories.FirstOrDefault(x => x.Id == id);
+            if (category == null)
+            {
+                return NotFound("No record found against this id " + id);
+            }
             return Ok(category);
         }
 
@@ -42,10 +46,17 @@ namespace RealEstateApi.Controllers
         public IActionResult Put (int id , [FromBody] Category categoryObj)
         {
             var category = _dbcontext.Categories.Find(id);
-            category.Name = categoryObj.Name;
-            category.ImageUrl = categoryObj.ImageUrl;
-            _dbcontext.SaveChanges();
-            return Ok("Record updated successfully");
+            if (category == null)
+            {
+                return NotFound("No record found against this id " + id);
+            }
+            else
+            {
+                category.Name = categoryObj.Name;
+                category.ImageUrl = categoryObj.ImageUrl;
+                _dbcontext.SaveChanges();
+                return Ok("Record updated successfully");
+            }
         }
 
         //DELETE Method
@@ -53,9 +64,16 @@ namespace RealEstateApi.Controllers
         public IActionResult Delete (int id)
         {
             var category = _dbcontext.Categories.Find(id);
-            _dbcontext.Categories.Remove(category);
-            _dbcontext.SaveChanges();
-            return Ok("Record deleted");
+            if (category == null)
+            {
+                return NotFound("No record found against this id " + id);
+            }
+            else
+            {
+                _dbcontext.Categories.Remove(category);
+                _dbcontext.SaveChanges();
+                return Ok("Record deleted");
+            }
         }
 
 
