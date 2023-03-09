@@ -9,10 +9,14 @@ namespace RealEstateApi.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        ApiDbContext _dbcontext = new ApiDbContext ();
+        ApiDbContext _dbcontext = new ApiDbContext();
+
+
+
+        //GET Methods
 
         [HttpGet]
-        public IEnumerable<Category> Get() 
+        public IEnumerable<Category> Get()
         {
             return _dbcontext.Categories;
         }
@@ -24,6 +28,10 @@ namespace RealEstateApi.Controllers
             return category;
         }
 
+
+
+        //POST Method
+
         [HttpPost]
         public void Post([FromBody] Category category)
         {
@@ -31,6 +39,28 @@ namespace RealEstateApi.Controllers
             _dbcontext.SaveChanges();
         }
 
+
+
+        //PUT Method
+        [HttpPut("{id}")]
+        public void Put (int id , [FromBody] Category categoryObj)
+        {
+            var category = _dbcontext.Categories.Find(id);
+            category.Name = categoryObj.Name;
+            category.ImageUrl = categoryObj.ImageUrl;
+            _dbcontext.SaveChanges();
+        }
+
+
+
+        //DELETE Method
+        [HttpDelete("{id}")]
+        public void Delete (int id)
+        {
+            var category = _dbcontext.Categories.Find(id);
+            _dbcontext.Categories.Remove(category);
+            _dbcontext.SaveChanges();
+        }
 
 
 
