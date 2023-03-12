@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Data;
 using RealEstateApi.Models;
@@ -9,81 +10,78 @@ namespace RealEstateApi.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        ApiDbContext _dbcontext = new ApiDbContext();
-
+        ApiDbContext _dbContext = new ApiDbContext();
 
 
         //GET Methods
         [HttpGet]
+        [Authorize]
         public IActionResult Get()
         {
-            return Ok(_dbcontext.Categories);
+            return Ok(_dbContext.Categories);
         }
 
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {
-            var category = _dbcontext.Categories.FirstOrDefault(x => x.Id == id);
-            if (category == null)
-            {
-                return NotFound("No record found against this id " + id);
-            }
-            return Ok(category);
-        }
+        //[HttpGet("{id}")]
+        //public IActionResult Get(int id)
+        //{
+        //    var category = _dbcontext.Categories.FirstOrDefault(x => x.Id == id);
+        //    if (category == null)
+        //    {
+        //        return NotFound("No record found against this id " + id);
+        //    }
+        //    return Ok(category);
+        //}
 
-        [HttpGet ("[action]")]
-        public IActionResult SortedCategories()
-        {
-            return Ok(_dbcontext.Categories.OrderByDescending(x => x.Name));
-        }
+        //[HttpGet ("[action]")]
+        //public IActionResult SortedCategories()
+        //{
+        //    return Ok(_dbcontext.Categories.OrderByDescending(x => x.Name));
+        //}
 
-        //POST Method
-        [HttpPost]
-        public IActionResult Post([FromBody] Category category)
-        {
-            _dbcontext.Categories.Add(category);
-            _dbcontext.SaveChanges();
-            return StatusCode(StatusCodes.Status201Created);
-        }
+        ////POST Method
+        //[HttpPost]
+        //public IActionResult Post([FromBody] Category category)
+        //{
+        //    _dbcontext.Categories.Add(category);
+        //    _dbcontext.SaveChanges();
+        //    return StatusCode(StatusCodes.Status201Created);
+        //}
 
-        //PUT Method
-        [HttpPut("{id}")]
-        public IActionResult Put (int id , [FromBody] Category categoryObj)
-        {
-            var category = _dbcontext.Categories.Find(id);
-            if (category == null)
-            {
-                return NotFound("No record found against this id " + id);
-            }
-            else
-            {
-                category.Name = categoryObj.Name;
-                category.ImageUrl = categoryObj.ImageUrl;
-                _dbcontext.SaveChanges();
-                return Ok("Record updated successfully");
-            }
-        }
+        ////PUT Method
+        //[HttpPut("{id}")]
+        //public IActionResult Put (int id , [FromBody] Category categoryObj)
+        //{
+        //    var category = _dbcontext.Categories.Find(id);
+        //    if (category == null)
+        //    {
+        //        return NotFound("No record found against this id " + id);
+        //    }
+        //    else
+        //    {
+        //        category.Name = categoryObj.Name;
+        //        category.ImageUrl = categoryObj.ImageUrl;
+        //        _dbcontext.SaveChanges();
+        //        return Ok("Record updated successfully");
+        //    }
+        //}
 
-        //DELETE Method
-        [HttpDelete("{id}")]
-        public IActionResult Delete (int id)
-        {
-            var category = _dbcontext.Categories.Find(id);
-            if (category == null)
-            {
-                return NotFound("No record found against this id " + id);
-            }
-            else
-            {
-                _dbcontext.Categories.Remove(category);
-                _dbcontext.SaveChanges();
-                return Ok("Record deleted");
-            }
-        }
-
-
-
+        ////DELETE Method
+        //[HttpDelete("{id}")]
+        //public IActionResult Delete (int id)
+        //{
+        //    var category = _dbcontext.Categories.Find(id);
+        //    if (category == null)
+        //    {
+        //        return NotFound("No record found against this id " + id);
+        //    }
+        //    else
+        //    {
+        //        _dbcontext.Categories.Remove(category);
+        //        _dbcontext.SaveChanges();
+        //        return Ok("Record deleted");
+        //    }
+        //}
 
 
 
@@ -128,6 +126,7 @@ namespace RealEstateApi.Controllers
         //    _dbcontext.Categories.Remove(category);
         //    _dbcontext.SaveChanges();
         //}
+
 
 
 

@@ -13,5 +13,7 @@ namespace RealEstateApi.Models
         [Required (ErrorMessage = "ImageUrl cannot be empty")]
         public string ImageUrl { get; set; }
 
+        public ICollection <Property> Properties { get; set; }
+
     }
 }
